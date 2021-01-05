@@ -1,6 +1,7 @@
 /*
-    Ernestas Škudzinskas 2016049
-    1 Užduotis (12)
+    Ernestas Škudzinskas
+    This program checks whether the entered number array has 
+    3 zeroes in a row or not.
 
 */
 
