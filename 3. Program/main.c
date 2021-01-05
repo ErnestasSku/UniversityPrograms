@@ -1,12 +1,8 @@
 /*
-   Ernestas Škudzinskas 2016049
-    3.4 užduotis
-
-    Trukmė, patį uždavinį išsprendžiau per 40+ min, bet
-    šiek tiek užtrukau kol vizualiai sutvarkiau keletą vietų, (ištryniau 
-    savo debug printf'us)
-    Taip pat buvo iškilusios keletą mažų bugų
-    Visas uždavinys buvo baigtas per 1h ~15 min
+   Ernestas Škudzinskas
+  
+   purpose: learning to use files in C
+   This program reads from a file and connects words if the last word's last symbol and the next words first symbol matches
 
 */
 #include <stdio.h>
