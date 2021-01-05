@@ -1,6 +1,7 @@
 CC = gcc
 
-#Output failas yra t.out, o ne t.exe, nes naudoju Linux'us
+#This program initially was written using linux, therefore the output file is
+# .out and not .exe
 OUTPUT = t.out
 HEADERS = functions.h list.h
 FILES = functions.c list.c

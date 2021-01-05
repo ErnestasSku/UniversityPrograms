@@ -1,17 +1,3 @@
-/*
-    Ernestas Škudzinskas 2016049
-    4.2 užduotis
-
-    Trukmė: tikslaus laiko nežinau, bet tikrai neviršijau savo numatytos prognzės
-    Linked listą implementavau pakankamai greitai, nes jau turiu patirties su juo, tai jis užtruko apie
-    ~25 minutes, neipaisant tvarkos, nes tai pasilikau pabaigai kai daug maž viskas buvo išspręsta
-
-    bugai: turėjau keletą bugų su pointeriais, bet juos išsprendžiau per 10-20 minučių.
-    Vienas iš sudėtingesnių bugų buvo implementuoti kad sąrašas susitvarkytų, bet nusipiešus veikimo principą ant popieriaus
-    jį greitai pašalinau. Užtrukau apie 20-25 minutes.
-
-
-*/
 #include <stdio.h>
 #include "list.h"
 #include "functions.h"
