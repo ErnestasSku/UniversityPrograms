@@ -1,11 +1,7 @@
 /*
-    Ernestas Škudzinskas 2016049
-    2.6 užduotis
-    trukme: ~30 minuciu
-    defektai: Su defektais nelabai susitikau, nes sita uzduotis buvo panasaus stiliaus
-    kokias spresdavau mokykloje ar competetive programming varzybose
-    Programa galima gerinti naudojant efektyvesni rikiavimo algoritma kaip 
-    merge sort arba quicksort
+    Ernestas Škudzinskas 
+    Purpose: to learn how pointers work
+    This program outouts array in 3 different intervals.
  */
 
 #include<stdio.h>
