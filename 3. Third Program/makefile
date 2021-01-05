@@ -1,2 +1,9 @@
+CC = gcc
+
+#This program initially was written using linux, therefore the output file is
+# .out and not .exe
+OUTPUT = t.out
+FILES = main.c
+
 mainmake: main.c
-	gcc main.c -o t.out -I.
+	$(CC) $(FILES) -o $(OUTPUT) -I.
