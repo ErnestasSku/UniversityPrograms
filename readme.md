@@ -1,3 +1,3 @@
-# Procedural programming lecture
+# Programs written during unviersity
 
-This repository contains programming tasks made during the procedural programming course
+This repository contains projects I made for university classes
