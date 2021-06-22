@@ -1,0 +1,7 @@
+*.code
+*.vscode
+*.idea
+*.exe
+*.txt
+__pycache__
+*.zip

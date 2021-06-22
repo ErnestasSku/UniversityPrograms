@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" controller="DataSceneController2">
+  <tabs>
+    <Tab fx:id="data" text="Duomenys">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="tabelData" layoutX="43.0" layoutY="38.0" prefHeight="268.0" prefWidth="477.0">
+                    <columns>
+                      <TableColumn fx:id="tableName" prefWidth="95.0" text="Vardas" />
+                      <TableColumn fx:id="tabelLastName" prefWidth="88.0" text="Pavardė" />
+                        <TableColumn fx:id="tableId" prefWidth="96.0" text="Id nr." />
+                        <TableColumn fx:id="tabelBirthYear" prefWidth="85.0" text="Gimimo data" />
+                        <TableColumn fx:id="tableCity" prefWidth="91.0" text="Miestas" />
+                    </columns>
+                  </TableView>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab fx:id="tree" text="Kūrimas">
+      <content>
+        <AnchorPane fx:id="treePane" minHeight="0.0" minWidth="0.0" onMouseClicked="#mouseClickPane" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="addNewPerson" layoutX="232.0" layoutY="330.0" mnemonicParsing="false" onMouseClicked="#addNewPerson" text="Naujas žmogus" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab fx:id="treePreview" text="Medis">
+        <content>
+          <AnchorPane fx:id="treePreviewPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="viewList" layoutX="260.0" layoutY="319.0" mnemonicParsing="false" onAction="#createTree" text="Peržiūra" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+      <Tab fx:id="filter" text="Filtravimas">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>
