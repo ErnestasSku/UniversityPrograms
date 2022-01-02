@@ -1,0 +1,500 @@
+#include <stdio.h>
+
+
+EXEC SQL BEGIN DECLARE SECTION ;
+int result ;
+EXEC SQL END DECLARE SECTION ;
+
+int Input();
+void Options();
+void CloseConnection();
+
+//Select
+void SelectEmptyRooms();
+void SelectClientRooms();
+void SelectAllClients();
+
+//Insert
+void AddNewWorker();
+void RegisterNewClientWithRoom();
+void CheckInNewClient();
+
+//Update
+void UpdateOldClient();
+
+//Delete
+void UnregisterClient();
+
+
+
+int main()
+{
+  
+  
+  EXEC SQL CONNECT TO studentu@pgsql2.mif USER username USING password;
+
+  if(SQLCODE == 0)
+  {
+    printf("Sėkmingai prisijungta prie duomenų bazės\n");
+
+    int Action;
+    while(1)
+    {
+      EXEC SQL CONNECT TO studentu@pgsql2.mif USER username USING password;
+      printf("\n");
+      Options();
+      Action = Input();
+
+      if(Action == 0)
+      {
+        CloseConnection();
+        return 0;
+      }
+      else if (Action == 1)
+      {
+        SelectEmptyRooms();
+      }
+      else if (Action == 2)
+      {
+        SelectClientRooms();
+      }
+      else if (Action == 3)
+      {
+        AddNewWorker();
+      }
+      else if (Action == 4)
+      {
+        RegisterNewClientWithRoom();
+      }
+      else if (Action == 5)
+      {
+        CheckInNewClient();
+      }
+      else if (Action == 6)
+      {
+        UpdateOldClient();
+      }
+      else if (Action == 7)
+      {
+          UnregisterClient();
+      }
+      else if (Action == 8)
+      {
+
+      }
+      else if (Action == 9)
+      {
+
+      }
+      
+    }
+    
+
+  }
+  else 
+  {
+    printf("Įvyko klaida bandand prisijungti prie duomenų bazės\n");
+  }
+
+  // printf("CONNECT TO biblio. SQLCODE=%ld\n", SQLCODE ) ;
+  // if( 0 == SQLCODE )
+  //   EXEC SQL SELECT COUNT(*) INTO :result FROM kambarys ;
+  // if( 0 == SQLCODE )
+  //   printf("Programa veikia! Knygu skaicius=%d\n", result) ;
+  // else
+  //   printf("SQLCODE=%ld\n", SQLCODE ) ;
+
+  EXEC SQL DISCONNECT ;
+
+  return 0 ;
+}
+
+int Input()
+{
+    int number;
+    int correct;
+    do {
+       correct = 1;
+       if(!scanf("%d", &number))
+        {
+            scanf("%*[^\n]");
+            correct = 0;
+            printf("Neteisinga ivestis\n");
+        }
+    } while (!correct);
+    return number;
+}
+
+void Options()
+{
+  printf("0 - Uždaryti programa\n");
+
+  //Select
+  printf("1 - Pežiūrėti laisvus kambarius \n");
+  printf("2 - Pežiūrėti kambarių užimtumą \n");
+  
+  //Insert
+  printf("3 - Įdarbinti naują darbuotoją \n");
+  printf("4 - Užregistruoti nauja klientą į kambarį \n");
+  printf("5 - Užregistruoti Buvusį klientą į kambarį \n");
+  
+  //Update
+  printf("6 - Atnaujinti kliento duomenis \n");
+  
+  //Delete
+  printf("7 - Išregistruoti klientą iš kambario \n");
+  // printf("8 - Todo \n");
+  // printf("9 - Todo \n");
+}
+
+void CloseConnection()
+{
+  EXEC SQL DISCONNECT ;
+}
+
+
+
+////// SELECT
+void SelectEmptyRooms()
+{
+
+  EXEC SQL REFRESH MATERIALIZED VIEW laisvi_kambariai ;
+
+ 
+  EXEC SQL BEGIN DECLARE SECTION ;
+  int roomResult ;
+  char size[20];
+  char type[20];
+  EXEC SQL END DECLARE SECTION ;
+
+  EXEC SQL WHENEVER SQLERROR GOTO error ; 
+  EXEC SQL WHENEVER NOT FOUND GOTO fin ; 
+
+  EXEC SQL DECLARE cursEmtyRooms CURSOR FOR 
+      SELECT kambario_nr, dydis, tipas
+      FROM laisvi_kambariai;
+
+  EXEC SQL OPEN cursEmtyRooms ;
+  
+  printf("\n\nkambario nr  Dydis   Tipas\n");
+  while (1)
+  {
+    EXEC SQL FETCH cursEmtyRooms INTO :roomResult, :size, :type;
+    printf("%d %s %s\n", roomResult, size, type);
+  }
+
+  EXEC SQL WHENEVER SQLERROR CONTINUE; 
+  EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+  EXEC SQL CLOSE cursEmtyRooms ; 
+  EXEC SQL CONNECT RESET ; 
+
+  error:
+    printf("SQL klaida: %ld\n", SQLCODE);
+  fin:
+    EXEC SQL WHENEVER SQLERROR CONTINUE; 
+    EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+    EXEC SQL CLOSE cursEmtyRooms ; 
+    EXEC SQL CONNECT RESET ; 
+}
+
+void SelectClientRooms()
+{
+
+  EXEC SQL BEGIN DECLARE SECTION ;
+  int kambarioNr ;
+  int klientoNr  ;
+  EXEC SQL END DECLARE SECTION ;
+
+  printf("1");
+
+  EXEC SQL WHENEVER SQLERROR GOTO error ; 
+  EXEC SQL WHENEVER NOT FOUND GOTO fin ; 
+
+  printf("2");
+
+
+  EXEC SQL DECLARE cursClientRoom CURSOR FOR 
+      SELECT kambario_nr, kliento_nr
+      FROM kliento_kambariai;
+
+  EXEC SQL OPEN cursClientRoom ;
+  
+  printf("\n\nkambario nr  Kliento nr\n");
+  while (1)
+  {
+    EXEC SQL FETCH cursClientRoom INTO :kambarioNr, :klientoNr;
+    printf("%d %d\n", kambarioNr, klientoNr);
+  }
+
+  EXEC SQL WHENEVER SQLERROR CONTINUE; 
+  EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+  EXEC SQL CLOSE cursClientRoom ; 
+  EXEC SQL CONNECT RESET ; 
+
+  error:
+    printf("SQL klaida: %ld\n", SQLCODE);
+  fin:
+    EXEC SQL WHENEVER SQLERROR CONTINUE; 
+    EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+    EXEC SQL CLOSE cursClientRoom ; 
+    EXEC SQL CONNECT RESET ; 
+
+}
+
+void SelectAllClients()
+{
+  EXEC SQL BEGIN DECLARE SECTION ;
+  int id ;
+  char vardas[30];
+  char pavarde[30];
+  EXEC SQL END DECLARE SECTION ;
+
+  EXEC SQL WHENEVER SQLERROR GOTO error ; 
+  EXEC SQL WHENEVER NOT FOUND GOTO fin ; 
+
+  EXEC SQL DECLARE cursAllClient CURSOR FOR 
+      SELECT kliento_nr, vardas, pavarde
+      FROM klientas;
+
+  EXEC SQL OPEN cursAllClient ;
+  
+  printf("\n\nId  Vardas   Pavarde\n");
+  while (1)
+  {
+    EXEC SQL FETCH cursAllClient INTO :id, :vardas, :pavarde;
+    printf("%d %s %s\n", id, vardas, pavarde);
+  }
+
+  EXEC SQL WHENEVER SQLERROR CONTINUE; 
+  EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+  EXEC SQL CLOSE cursAllClient ; 
+  EXEC SQL CONNECT RESET ; 
+
+  error:
+    printf("SQL klaida: %ld\n", SQLCODE);
+  fin:
+    EXEC SQL WHENEVER SQLERROR CONTINUE; 
+    EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+    EXEC SQL CLOSE cursAllClient ; 
+    EXEC SQL CONNECT RESET ; 
+}
+
+
+////// INSERT
+
+
+void AddNewWorker()
+{
+  printf("Įveskite darbuotojo vardą, pavardę, pareigas ir darbo valandas\n");
+  char *vardas, *pavarde, *pareigos;
+  scanf("%s", &vardas);
+  scanf("%s", &pareigos);
+  scanf("%s", &pavarde);
+  int valandos = Input();
+
+  EXEC SQL INSERT INTO darbuotojas
+      VALUES(vardas, pavarde, pareigos, valandos);
+  
+  if(SQLCODE == 0)
+    printf("Įvykdyta sėkmingai\n");
+  else
+    printf("Įvyko klaida %d\n", SQLCODE);
+
+}
+
+
+void RegisterNewClientWithRoom()
+{
+  
+}
+
+
+void CheckInNewClient()
+{
+
+  SelectAllClients();
+  printf("Pasirinkite klientą");
+  int client = Input();
+
+  SelectEmptyRooms();
+  printf("Pasirinkite kambarį");
+  int room = Input();
+
+  EXEC SQL INSERT INTO kliento_kambariai
+    VALUES(room, client);
+
+  if(SQLCODE == 0)
+    printf("Įvykdyta sėkmingai\n");
+  else
+    printf("Įvyko klaida %d\n", SQLCODE);
+
+}
+
+
+
+
+////// UPDATE
+
+void UpdateOldClient()
+{
+  EXEC SQL BEGIN DECLARE SECTION ;
+  int id;
+  char name[20];
+  char lastname[20];
+  EXEC SQL END DECLARE SECTION;
+
+  EXEC SQL WHENEVER SQLERROR GOTO error ; 
+  EXEC SQL WHENEVER NOT FOUND GOTO fin ; 
+
+  EXEC SQL DECLARE cursUoldClient CURSOR FOR 
+    SELECT kliento_nr, vardas, pavarde
+    FROM klientas ;
+
+  EXEC SQL OPEN cursUoldClient ;
+
+  printf("\n\nId  Vardas  Pavarde\n");
+  while (1)
+  {
+    EXEC SQL FETCH cursUoldClient INTO :id, :name, :lastname;
+    printf("%d %s %s\n", id, name, lastname);
+  }
+
+  EXEC SQL WHENEVER SQLERROR CONTINUE; 
+  EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+  EXEC SQL CLOSE cursUoldClient ; 
+  EXEC SQL CONNECT RESET ; 
+
+  error:
+    printf("SQL klaida: %ld\n", SQLCODE);
+  fin:
+    EXEC SQL WHENEVER SQLERROR CONTINUE; 
+    EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+    EXEC SQL CLOSE cursUoldClient ; 
+    EXEC SQL CONNECT RESET ; 
+
+
+  EXEC SQL BEGIN DECLARE SECTION;
+  int num;
+  int klientas;
+  EXEC SQL END DECLARE SECTION;
+
+  printf("Pasirinkti klientą\n");
+  klientas = Input();
+
+  printf("1 - Atnaujinti kortelės numerį \n2 - Atnaujinti telefono numerį\n");
+  int n = Input();
+
+  if (n == 1)
+  {
+    printf("Įveskite naują kortelęs nr\n");
+    num = Input();
+
+    EXEC SQL UPDATE klientas
+      SET korteles_nr = :num
+      WHERE kliento_nr = :klientas ;
+
+  }
+  else if (n == 2)
+  {
+    printf("Įveskite naują telefono nr\n");
+    num = Input();
+    
+    EXEC SQL UPDATE klientas
+      SET telefono_nr = :num
+      WHERE kliento_nr = :klientas ;
+  }
+  else 
+    printf("Neatpažinta komanda\n");
+
+  if(SQLCODE == 0)
+    {
+      EXEC SQL COMMIT;
+      printf("Atnaujinimas atlitkas sėkmingai\n");
+    }
+  else
+    {
+      EXEC SQL ROLLBACK;
+      printf("Įvyko klaida %d", SQLCODE);
+    }
+  EXEC SQL CONNECT RESET;
+}
+
+
+
+
+
+
+////// DELETE
+
+void UnregisterClient()
+{
+  
+  EXEC SQL BEGIN DECLARE SECTION ;
+  int id;
+  char name[20];
+  char lastname[20];
+  EXEC SQL END DECLARE SECTION;
+
+  EXEC SQL WHENEVER SQLERROR GOTO error ; 
+  EXEC SQL WHENEVER NOT FOUND GOTO fin ; 
+
+  EXEC SQL DECLARE cursDclient CURSOR FOR 
+    SELECT g.kliento_nr, g.vardas, g.pavarde
+    FROM klientas AS g
+    JOIN kliento_kambariai AS k ON g.kliento_nr = k.kliento_nr;
+  
+  EXEC SQL OPEN cursDclient ;
+
+  printf("\n\nId  Vardas  Pavarde\n");
+  while (1)
+  {
+    EXEC SQL FETCH cursDclient INTO :id, :name, :lastname;
+    printf("%d %s %s\n", id, name, lastname);
+  }
+
+  EXEC SQL WHENEVER SQLERROR CONTINUE; 
+  EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+  EXEC SQL CLOSE cursDclient ; 
+  EXEC SQL CONNECT RESET ; 
+
+  error:
+    printf("SQL klaida: %ld\n", SQLCODE);
+  fin:
+    EXEC SQL WHENEVER SQLERROR CONTINUE; 
+    EXEC SQL WHENEVER NOT FOUND CONTINUE; 
+    EXEC SQL CLOSE cursDclient ; 
+    EXEC SQL CONNECT RESET ; 
+
+  printf("Įveskite skaičių\n");
+  int n = Input();
+
+  EXEC SQL BEGIN DECLARE SECTION ;
+  int nr;
+  EXEC SQL END DECLARE SECTION ;
+  nr = n;
+
+  EXEC SQL WHENEVER SQLERROR GOTO error1 ; 
+  EXEC SQL WHENEVER NOT FOUND GOTO fin1 ; 
+
+  EXEC SQL  DELETE FROM kliento_kambariai
+            WHERE kliento_nr = :nr; 
+
+
+  error1:
+  fin1:
+  {
+    int ok = 0;
+    if(SQLCODE == 0)
+      {
+        ok = 1;
+        EXEC SQL COMMIT;
+      }
+    else 
+    {
+      EXEC SQL ROLLBACK;
+      printf("SQL klaida: %ld\n", SQLCODE);
+    }
+    EXEC SQL CONNECT RESET;
+  }
+    
+}
