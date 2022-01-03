@@ -1,0 +1,18 @@
+resolver: lts-18.0
+compiler: ghc-8.10.5
+compiler-check: match-exact
+
+# Local packages, usually specified by relative directory name
+packages:
+- '.'
+
+extra-deps:
+- Spock-0.14.0.0@sha256:7e86ccc9e66ce0fdb84d1dcd328f852d3754c2dbfcb60d0e7e2f1cce2f32f177,3681
+- Spock-core-0.14.0.0@sha256:b55935c2c2a259a9966999239ee6ec5e41f7d933a58baade687ffa4b4a46fe32,3457
+- reroute-0.6.0.0@sha256:43805b3fdc7ed1ba701cd10e249abc997b2291c8f374b8333bb2ea0e0d1dad0b,2382
+- stm-containers-1.2@sha256:a887f2e7692b7cf20e0b081e2d66e21076e2bd4b57016ec59c484edfa2d29397,3244
+- stm-hamt-1.2.0.6@sha256:fba86ccb4b45c5706c19b0e1315ba63dcac3b5d71de945ec001ba921fae80061,3972
+- focus-1.0.1.4
+- primitive-extras-0.10.1.1@sha256:47c4d211166bc31ebdb053f610e4b5387c01d00bde81840e59438469cef6c94e,2955
+- primitive-unlifted-1.0.0.0@sha256:16c3f149cf2fb3da64a43ffd0020d78a198454baded3a7f7f49a59397eea5770,2293
+- Spock-lucid-0.4.0.1@sha256:fa2c6ae737bad26767820af29c913140a657acbf745e90c9f9d4a184953855dc,1117
