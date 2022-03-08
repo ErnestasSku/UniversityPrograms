@@ -152,7 +152,6 @@ fromJsonToCommands (JsonLikeObject o) =
 
 
 fromJsonToCommands _ = undefined
--- fromJsonToCommands Nothing
 
 toCommand :: Maybe JsonLike -> Command
 toCommand (Just (JsonLikeObject a)) = 

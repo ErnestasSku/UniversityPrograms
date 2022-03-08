@@ -5,7 +5,6 @@ import Control.Applicative
 import JsonLike
 
 
--- NOTE: no proper error reporting
 newtype Parser a = Parser { runParser :: String -> Maybe (String, a)}
 
 instance Functor Parser where
@@ -64,7 +63,6 @@ jsonNumber :: Parser JsonLike
 jsonNumber = f <$> notNull (parseWhile isDigit)
     where f ds = JsonLikeInteger $ read ds
 
--- NOTE: no escape support
 parseWord :: Parser String
 parseWord = parseChar '"' *> parseWhile (/= '"') <* parseChar '"'
 
