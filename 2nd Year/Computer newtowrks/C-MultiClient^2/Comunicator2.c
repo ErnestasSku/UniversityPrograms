@@ -5,6 +5,8 @@
 #include <errno.h>
 #include <signal.h>
 
+#include "util.h"
+
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -13,7 +15,51 @@
 #include <netdb.h>
 #include <netinet/in.h>
 
-#include "Utils.h"
+int setup_server(const char *ip, const char *port, int backlog);
+
+
+int main(int argc, char const *argv[])
+{   
+    struct sockaddr_storage their_addr;
+    socklen_t addr_size;
+
+    int hash_server, eta_server;
+     if (argc != 4)
+    {
+        fprintf(stderr, "usage: communicator ip port1 port 2\n");
+        exit(1);
+    }
+    eta_server = setup_server(argv[1], argv[2], 10);
+    hash_server = setup_server(argv[1], argv[3], 10);
+    
+    addr_size = sizeof their_addr;
+    int eta_socket = accept(eta_server, (struct sockaddr *)&their_addr, &addr_size);
+    int hash_socket = accept(hash_server, (struct sockaddr *)&their_addr, &addr_size); 
+
+    while(1)
+    {   
+        char *buffer[1024];
+        
+        memset(buffer, 0, sizeof(buffer));
+        int e_len = recvtimeout(eta_socket, buffer, sizeof(buffer), 1);
+
+        if (e_len > 0) {
+            printf("Received: %s\n", buffer);
+            send(hash_socket, buffer, sizeof(buffer), 0);
+        }
+
+        memset(buffer, 0, sizeof(buffer));
+        int h_len = recvtimeout(hash_socket, buffer, sizeof(buffer), 1);
+
+        if (h_len > 0) {
+            printf("Received: %s\n", buffer);
+            send(eta_socket, buffer, sizeof(buffer), 0);
+        }
+
+    }
+
+    return 0;
+}
 
 int setup_server(const char *ip, const char *port, int backlog)
 {
@@ -46,7 +92,7 @@ int setup_server(const char *ip, const char *port, int backlog)
             perror("server: bind");
             continue;
         }
-        int err = listen(server_socket, backlog);
+        int err = listen(server_socket, 10);
         check(err, "Failed in listen");
 
         break;
@@ -61,26 +107,6 @@ int setup_server(const char *ip, const char *port, int backlog)
     return server_socket;
 }
 
-
-int recvtimeout(int s, char *buf, int len, int timeout)
-{
-    fd_set fds;
-    int n;
-    struct timeval tv;
-
-    FD_ZERO(&fds);
-    FD_SET(s, &fds);
-
-    tv.tv_sec = timeout;
-    tv.tv_usec = 0;
-
-    n = select(s+1, &fds, NULL, NULL, &tv);
-    if (n == 0) return -2; // TIMEOUT
-    if (n == -1) return -1; // error
-    FD_CLR(s, &fds);
-    return recv(s, buf, len, 0);
-}
-
 void check(int exp, const char *msg)
 {
     if (exp < 0) {
@@ -88,18 +114,4 @@ void check(int exp, const char *msg)
         exit(1);    
     }
     return;
-}
-
-
-
-void tcp_send(int socket, unsigned char *buffer, unsigned char *response, int size)
-{
-    int snd;
-    int rcv;
-    do 
-    {
-        snd = send(socket, buffer, size * sizeof(unsigned char), 0);
-        
-        rcv = recvtimeout(socket, response, 1024 * sizeof(unsigned char), 1);
-    } while (snd < 0 && rcv < 0);
 }
