@@ -1,0 +1,97 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+    
+    "definitions": {
+    	"iranga" : {
+        	"type": "object",
+           	"properties": {
+            	"ram_deklas": {
+                	"type": "array",
+                    "items" : {
+                    	"slot": {"type": "integer"},
+                        "atmintis": {"type": "integer"}
+                    }
+                },
+                "eterneto_adapteris": {
+                	"type": "object",
+                    "properties": {
+                    	"mac": {"type": "string"}
+                    }
+                },
+                "bevielio_adapteris": {
+                	"type": "object",
+                    "properties": {
+                    	"mac": {"type": "string"},
+                        "DHCP_enabled" : {"type": "boolean"},
+                        "description": {"type": "string"},
+                        "lease_obtained": {"type": "string"},
+                        "lease_expires": {"type": "string"}
+                    }
+                },
+                "procesorius": {
+                	"type": "object",
+                    "properties": {
+                    	"greitis": {"type": "number"},
+                        "branduoliai": {"type": "integer"},
+                        "loginiai_branduoliai": {"type": "integer"},
+                        "virtualizacija": {"type": "boolean"}
+                    }
+                },
+                "kietieji_diskai": {
+                	"type": "array",
+                    "items": {
+                    	"type": "object",
+                        "anyOf": [
+                          {"properties": {"HDD": {"type": "integer"}}},
+                          {"properties": {"SSD": {"type": "integer"}}}
+                        ]
+                    }
+                }
+            }
+        },
+       "gamintojas": {"type": "string", "enum": ["AMD", "Intel", "NVIDIA"]},
+       "irangaSuGpu" : {
+         "allOf": [
+           {"$ref":"#/definitions/iranga"},
+           {  
+           	"oneOf": [
+              {"gpu": {"type": "object", "properties": {"$ref": "#/definitions/gamintojas"}}},
+              {"integruotas_gpu": {"type": "object", "properties": {"$ref": "#/definitions/gamintojas}"}}}
+            ]
+           }
+         ]
+       }
+    },
+      
+    "type": "object",
+    "properties": {
+      "sistema" : {
+      	"type": "object",
+        "properties": {
+          "physical_addresss": {"type": "string", "pattern": "([0-9A-F]{2}\\-?){6}"},
+          "operacine_sistema": {"type": "string", "maximum": 1},
+          "branduolys": {"type": "number"},
+          "paskutini_karta_atnaujinta": {"type": "string"},
+          "procesai": {
+            "type": "array",
+          	"items": {
+            	"type": "object",
+                "properties": {
+                	"pid": {"type": "integer"},
+                    "programos_pavadinimas": {"type": "string", "pattern": ".*\\.exe"},
+                    "cpu_naudojimas": {"type": "number"},
+                    "atminties_naudojimas": {"type": "number"},
+                    "statusas" : {"type": "string", "enum": ["aktyvus", "neatsako"]}
+                },
+               "required" : ["pid"],
+               "minItems": 0,
+               "uniqueItems": true
+            }
+          }
+        }
+      },
+      "iranga": { "$ref": "#/definitions/iranga" }
+    }
+    
+    
+}

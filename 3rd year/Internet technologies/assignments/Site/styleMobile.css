@@ -1,0 +1,82 @@
+
+body {
+    /* background-image: linear-gradient(to right, #00B4DB, #0083B0); */
+    background-color: #666666;
+    font-family: monospace;
+    height: 100%;
+    color: rgb(255, 255, 255);
+}
+
+header {
+    /* height: 10%; */
+    background-color: #00A3A3;
+    margin: 0px;
+    padding-bottom: 10px;
+}
+
+header h1 {
+    margin: inherit;
+}
+
+nav {
+    background-color: #00D1D1;
+}
+
+footer {
+    max-height: 150px;
+
+}
+
+.computer-block-image {
+    width: 30px;
+    height: 30px;
+    padding: 10px 10px 0px 0px;
+    margin: 0px 0px 10px 10px;
+}
+
+article {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #92d393;
+}
+
+.computer-block {
+    display: flex;
+    flex-flow: row;
+    border-radius: 10px;
+    background-color: #78ffc0;   
+    margin: 5px;
+    /* min-width: 300px; */
+    /* max-width: 450px; */
+    max-width: 150px;
+    
+    
+}
+
+article>* {
+    flex: 1 1 100px;
+    /* min-width: 350px; */
+}
+
+
+
+.vertical {
+    display: flex;
+    flex-flow: row;
+}
+
+.default {
+    display: block;
+}
+
+#detail-table, th, tr, td {
+    color: black;
+    border: gold solid 3px;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+input[att='required'] {
+    border: red 1px solid;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer management</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="details.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Remote computer managment</h1>
+    </header>
+    <nav>
+        <a href="index.html">Title</a>
+        <a href="addPage.html">Add new remote machine</a>
+    </nav>
+    <section>
+        <article id="computer-details">
+            <div class="vertical">
+              <p>Running proceses: </p>
+              <ul>
+                  <li>Windows Security deamon</li>
+                  <li>Brave.exe</li>
+                  <li>Slack.exe</li>
+              </ul>
+            </div>
+            <div class="vertical">
+                <p>System information:  </p>
+                <table id="detail-table">
+                    <tr>
+                        <th>Device</th>
+                        <th>Utilization</th>
+                        <th>Clock Speed</th>
+                        <th>L1</th>
+                        <th>L2</th>
+                        <th>L3</th>
+                    </tr>
+                    <tr>
+                        <td>Cpu</td>
+                        <td>31%</td>
+                        <td>2.90 GHZ</td>
+                        <td>512MB</td>
+                        <td>4MB</td>
+                        <td>Kb</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">Gpu</td>
+                        <td>70%</td>
+                        <td>1515 MHZ</td>
+                        <td colspan="3">N/A</td>
+                    </tr>
+                    <tr>
+                        <td>5%</td>
+                        <td>715 MHZ</td>
+                        <td colspan="3">N/A</td>
+                    </tr>
+                    <tr>
+                        <td>Ram</td>
+                        <td>62%</td>
+                        <td>3200MHz</td>
+                        <td colspan="3">N/A</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h3>User comments</h3>
+                <textarea id="commentArea"></textarea>
+                <button id="commentButton">Post comment</button>
+                <div id="commentSection">
+                    
+                </div>
+            </div>
+        </article>
+    </section>
+    <footer>
+        Trademark 2022
+    </footer>
+</body>
+</html>

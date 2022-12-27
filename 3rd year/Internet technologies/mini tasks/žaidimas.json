@@ -1,0 +1,17 @@
+{
+    "Zaidimai" : [
+        {
+            "Pavadinimas" : "Legends of Runterra",
+            "Zanrai" : ["Card", "RPG", "Story"],
+            "Kaina" : 0.00,
+            "Internetinis" : true
+        },
+
+        {
+            "Pavadinimas" : "Witcher I",
+            "Zanrai" : ["RPG", "Action"],
+            "Kaina" : 8.99,
+            "Internetinis" : false
+        }
+    ]
+}

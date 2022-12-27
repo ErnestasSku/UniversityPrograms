@@ -1,0 +1,57 @@
+{
+    "sistema": {
+        "operacine_sistema": "Linux",
+        "branduolys": 5.17,
+        "paskutini_karta_atnaujinta": "2022-09-14",
+        "procesai": [
+            {
+                "pid": 10017,
+                "progamos_pavadinimas": "discord.exe",
+                "cpu_naudojimas": 0.2,
+                "atminties_naudojimas": 306.8
+            },
+            {
+                "pid": 10042,
+                "progamos_pavadinimas": "brave_browser.exe",
+                "cpu_naudojimas": 2.4,
+                "atminties_naudojimas": 1239.8
+            }
+        ],
+        "aktyvus-procesas": 10042
+    },
+    "iranga": {
+        "ram_deklas": [
+            {
+                "slot": 1,
+                "atmintis": 8192
+            },
+            {
+                "slot": 3,
+                "atmintis": 4096
+            }
+        ],
+        "eterneto_adapteris": {
+            "mac": "00-B0-D0-63-C2-26"
+        },
+        "bevlielio_adapteris": {
+            "mac": "12-A3-F1-74-A6-48",
+            "DHCP_enabl": true,
+            "description": "Intel(R) Wi-Fi 6 AX200 1600 MHz",
+            "lease_obtained": "2022-10-01",
+            "lease_expires": "2022-10-04"
+        },
+        "procesorius" : {
+            "greitis": 2.90,
+            "branduoliai": 8,
+            "loginiai_branduoliai": 16,
+            "virtualizacija" : true
+        },
+        "kietiji_diskai" : [
+            {
+                "tipas": "SSD",
+                "talpa": 512
+            }
+        ]
+
+    }
+}

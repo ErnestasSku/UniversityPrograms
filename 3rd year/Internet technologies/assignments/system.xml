@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<?xml-model href="system.xsd"?>
+<kompiuteris xmlns="htttp://eskud.lt/kompiuteris" physical_adress="50-2F-9B-AD-46-DB" >
+    <sistema>
+        <operacine_sistema>Linux</operacine_sistema>
+        <branduolys>5.17</branduolys>
+        <paskutini_karta_atnaujinta>2022-10-01</paskutini_karta_atnaujinta>
+        <procesai>
+            <procesas pid="10017"> 
+                <programos_pavadinimas>discord.exe</programos_pavadinimas>
+                <cpu_naudojimas> 0.2 </cpu_naudojimas>
+                <atminties_naudojimas> 306.8 </atminties_naudojimas>
+            </procesas>
+            <procesas pid="10014">
+                <programos_pavadinimas>brave_browser.exe></programos_pavadinimas>
+                <cpu_naudojimas> 2.4 </cpu_naudojimas>
+                <atminties_naudojimas> 1239.8 </atminties_naudojimas>
+            </procesas>
+        </procesai>
+        <aktyvus-procesas activePID="10014" />
+    </sistema>
+    <iranga>
+        <ram_deklas>
+            <ram_kasete slot="1">
+                <atmintis tipas="DDR5">8192</atmintis>                    
+            </ram_kasete>
+            <ram_kasete slot="3">
+                <atmintis tipas="DDR">4096</atmintis>
+            </ram_kasete>
+        </ram_deklas>
+
+        <etherneto_adapteris mac="00-B0-D0-63-C2-26">
+        </etherneto_adapteris>
+
+        <bevlielio_adapteris mac="12-A3-F1-74-A6-48">
+            <DHCP_Enabled> true </DHCP_Enabled>
+            <description> <trademark>Intel(R)</trademark> Wi-Fi 6 AX200 <clockSpeed>1600</clockSpeed> MHz </description>
+            <lease_obtained> 2022-10-01 </lease_obtained>
+            <lease_expires> 2022-10-04 </lease_expires>
+        </bevlielio_adapteris>
+
+        <procesorius> 
+            <greitis> 2.90 </greitis>
+            <branduoliai>8</branduoliai>
+            <kešavimo_atmintis>512 4000 8000</kešavimo_atmintis>
+            <loginiai_branduoliai>16</loginiai_branduoliai>
+            <virtualizacija>true</virtualizacija>
+        </procesorius>
+
+        <kietieji_diskai>
+            <kietasis_diskas>
+                <tipas> SSD </tipas>
+                <talpa> 512 </talpa> 
+            </kietasis_diskas>
+        </kietieji_diskai>
+
+        
+    </iranga>
+</kompiuteris>
