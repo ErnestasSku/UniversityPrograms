@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+<h:head/>
+<h:body>
+    <h2>Workers:</h2>
+    <ol>
+        <ui:repeat value="#{workerOrder.allWorkOrders}" var="order">
+            <li>
+                #{order.title}, #{order.type}
+            </li>
+        </ui:repeat>
+    </ol>
+    <h:form>
+        Work title: <h:inputText value="#{workerOrder.workOrderToCreate.title}" required="true" /> <br/>
+        Work type: <h:inputText value="#{workerOrder.workOrderToCreate.type}" /> <br/>
+        Workder Id: <h:inputText value="#{workerOrder.workerToAssign}"   />
+        <h:commandButton value="Add new worker"
+                         actionListener="#{workerOrder.createWorkOrder}"
+                         action="allWorkOrders?faces-redirect=true"/>
+    </h:form>
+
+
+
+</h:body>
+</html>
