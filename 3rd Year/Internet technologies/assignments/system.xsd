@@ -1,0 +1,220 @@
+<?xml version="1.0" ?>
+<xs:schema xmlns="htttp://eskud.lt/kompiuteris" 
+xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="htttp://eskud.lt/kompiuteris" elementFormDefault="qualified">
+
+    <xs:complexType name="SistemosTipas">
+        <xs:sequence>
+            <xs:element name="operacine_sistema" type="xs:string"/>
+            <xs:element name="branduolys" type="xs:double"/>
+            <xs:element name="paskutini_karta_atnaujinta" type="xs:date"/>
+            <xs:element name="procesai" type="ProcesuTipas" minOccurs="0">
+                <xs:key name="UnikalusProcesas">
+                    <xs:selector xpath="procesas"/>
+                    <xs:field xpath="@pid"/>
+                </xs:key>    
+            </xs:element>
+            <xs:element name="aktyvus-procesas">
+                <xs:complexType>
+                    <xs:attribute name="activePID"></xs:attribute>
+                </xs:complexType>    
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProcesuTipas">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="procesas">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="programos_pavadinimas" type="xs:string"/>
+                        <xs:element name="cpu_naudojimas" type="xs:double" />
+                        <xs:element name="atminties_naudojimas" type="xs:double" />
+                    </xs:sequence>
+                    <xs:attribute name="pid" type="xs:integer"/>
+                </xs:complexType>
+
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="IrangosTipas">
+        <xs:sequence>
+            <xs:element name="ram_deklas" type="ramDekloTipas"/>
+            <xs:element minOccurs="0" name="etherneto_adapteris" />
+            <xs:element name="bevlielio_adapteris" type="BeielioTipas" />
+            <xs:element name="procesorius"  type="ProcesoriausTipas"/>
+            <xs:element name="kietieji_diskai" type="DiskuTipas" />
+        </xs:sequence> 
+    </xs:complexType>
+
+    <xs:complexType name="ramDekloTipas">
+        <xs:sequence>
+            <xs:element name="ram_kasete" maxOccurs="16">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="atmintis" type="ApribotasRamTipas"></xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="slot"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ProcesoriausTipas">
+        <xs:sequence>
+            <xs:element name="greitis" type="xs:double"/>
+            <xs:element name="branduoliai" type="xs:integer"/>
+            <xs:element name="kešavimo_atmintis" type="KešavimoBlokeliai"/>
+            <xs:element name="loginiai_branduoliai" type="xs:integer"/>
+            <xs:element name="virtualizacija" type="xs:boolean"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <!-- KEYREF -->
+    <xs:complexType name="KompiuterioTipas">
+        <xs:sequence>
+            <xs:element name="sistema" type="SistemosTipas">
+                <xs:keyref name="NuorodaYProcesa" refer="UnikalusProcesas">
+                    <xs:selector xpath="aktyvus-procesas"/>
+                    <xs:field xpath="@activePID"/>
+                </xs:keyref>
+            </xs:element>
+            <xs:element name="iranga" type="IrangaSuGpu"/>
+        </xs:sequence>
+        <xs:attribute name="physical_adress" type="physical_adress" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="kompiuteris" type="KompiuterioTipas"/>
+    
+    <xs:complexType name="BeielioTipas" >
+        <xs:sequence>
+            <xs:element name="DHCP_Enabled" />
+            <xs:element name="description" />
+            <xs:element name="lease_obtained" />
+            <xs:element name="lease_expires" />
+        </xs:sequence>
+        <xs:attribute name="mac" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="DiskuTipas" >
+        <xs:sequence>
+            <xs:element name="kietasis_diskas"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="gpu">
+        <xs:sequence>
+            <xs:element name="pavadinimas" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="gamintojas" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Intel"/>
+                    <xs:enumeration value="Nvidia"/>
+                    <xs:enumeration value="AMD"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
+    <!-- 1. Paprastas tipas, apribojantis kokį nors Schema standartinį tipą, -->
+    <xs:simpleType name="physical_adress">
+        <xs:restriction base="xs:string">
+            <xs:length value="17"/>
+            <xs:pattern value="([0-9A-F]{2}\-?){6}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- 2. Prasmingas sąrašo tipas (list type). -->
+    <xs:simpleType name="KešavimoBlokeliai">
+        <xs:list itemType="xs:integer"/>
+    </xs:simpleType>
+
+
+    <!-- Paprastas turinys:
+        * praplėtimas: tik pridėti naujus atributis
+        * aprobojimas: apribojimas atributo žymę/tipą
+        * apribojimas: uždrausti bazinio tipo atributus 
+    -->
+    <!-- 3 Sudėtingi tipai su paprastu turiniu,-->
+    <!-- 3.1 restriction -->
+    
+    <xs:complexType name="RamTipas">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="tipas" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:complexType name="ApribotasRamTipas">
+        <xs:simpleContent>
+            <xs:restriction base="RamTipas">
+                <xs:attribute name="tipas">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:minLength value="3"></xs:minLength>
+                            <xs:maxLength value="4"></xs:maxLength>
+                            <xs:pattern value="DDR\d?"></xs:pattern>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:restriction>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <!-- 4. Sudėtingi tipai su sudėtingu turiniu. 7 choice -->
+    <xs:complexType name="IrangaSuGpu">
+        <xs:complexContent>
+            <xs:extension base="IrangosTipas">
+                <xs:choice minOccurs="0">
+                    <xs:element name="integruotas_gpu" type="gpu"/>
+                    <xs:element name="gpu" type="gpu"/>
+                </xs:choice>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- Restriction -->
+    <xs:complexType name="LaptopoIranga">
+        <xs:complexContent>
+            <xs:restriction base="IrangosTipas">
+                <xs:sequence>
+                    <xs:element name="ram_deklas" type="ramDekloTipas"/>
+                    <xs:element name="bevlielio_adapteris" type="BeielioTipas" />
+                    <xs:element name="procesorius"  type="ProcesoriausTipas"/>
+                    <xs:element name="kietieji_diskai" type="DiskuTipas"/>
+                </xs:sequence>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- 5. apribojimo princips -->
+    <!-- <xs:complexType name="pažeidimas">
+        <xs:complexContent>
+            <xs:restriction base="gpu">
+                <xs:attribute name="gamintojas" use="prohibited"/>
+            </xs:restriction>
+        </xs:complexContent>
+    </xs:complexType> -->
+
+
+    <!-- 6. Mixed content -->
+    <xs:element name="description">
+        <xs:complexType mixed="true">
+            <xs:all>
+                <xs:element name="trademark" type="xs:string" minOccurs="0"/>
+                <xs:element name="clockSpeed" type="xs:integer" minOccurs="0"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    
+    <!-- 8. keyref -->
+
+
+  
+
+
+
+</xs:schema>
