@@ -1,0 +1,26 @@
+<h2>Seller: {{ vat_invoice.seller_company_name }}</h2>
+<h2>Buyer: {{ vat_invoice.buyer_company_name }}</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Measurement Unit</th>
+            <th>Price without VAT</th>
+            <th>VAT Tariff</th>
+            <th>VAT Sum</th>
+            <th>Total Sum</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in vat_invoice.items.all %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.measurement_unit }}</td>
+                <td>{{ item.price_without_vat }}</td>
+                <td>{{ item.vat_tariff }}</td>
+                <td>{{ item.vat_sum }}</td>
+                <td>{{ item.total_sum }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

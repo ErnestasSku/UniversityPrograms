@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+<h:head/>
+<h:body>
+    <h2>Orders:</h2>
+    <ol>
+        <ui:repeat value="#{workerOrder.allWorkOrders}" var="order">
+            <li>
+                #{order.title}, #{order.type}
+            </li>
+        </ui:repeat>
+    </ol>
+    <h:form>
+        Work title: <h:inputText value="#{workerOrder.workOrderToCreate.title}" required="true" /> <br/>
+        Work type: <h:inputText value="#{workerOrder.workOrderToCreate.type}" /> <br/>
+        Workder Id: <h:inputText value="#{workerOrder.workerToAssign}"   />
+        <h:commandButton value="Add new worker"
+                         actionListener="#{workerOrder.createWorkOrder}"
+                         action="allWorkOrders?faces-redirect=true"/>
+    </h:form>
+
+
+    <br />
+    <br />
+
+    <h:form>
+        <h:commandButton value="Retrive task" action="#{workerOrder.retrieveTask}"/> <br />
+
+
+        <h:outputLabel value="Failed getting the task" rendered="#{!workerOrder.createdOrder.success}" /> <br />
+        <h:outputLabel value="#{workerOrder.createdOrder.workTitle}" rendered="#{workerOrder.createdOrder.success}" /> <br />
+        <h:outputLabel value="#{workerOrder.createdOrder.workType}"  rendered="#{workerOrder.createdOrder.success}" />
+
+    </h:form>
+
+
+</h:body>
+</html>

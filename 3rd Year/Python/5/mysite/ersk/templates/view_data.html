@@ -1,0 +1,22 @@
+<table>
+    <thead>
+        <tr>
+            <th>VAT Invoice ID</th>
+            <th>Seller Company Name</th>
+            <th>Buyer Company Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vat_invoice in vat_invoices %}
+            <tr>
+                <td>{{ vat_invoice.id }}</td>
+                <td>{{ vat_invoice.seller_company_name }}</td>
+                <td>{{ vat_invoice.buyer_company_name }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="3">No VAT invoices found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

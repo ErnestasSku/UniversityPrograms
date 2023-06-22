@@ -1,0 +1,16 @@
+
+{% block content %}
+  <div class="container">
+    <h2>Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="" type="submit">Login</button>
+    </form>
+  </div>
+
+
+  <br>
+  NOTE: in settings.py I have set LOGIN_REDIRECT_URL = '/ersk/main'
+
+{% endblock %}

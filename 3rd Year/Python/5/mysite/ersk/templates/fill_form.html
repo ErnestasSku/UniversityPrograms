@@ -1,0 +1,12 @@
+<form method="post">
+    {% csrf_token %}
+    {{ vat_invoice_form.as_p }}
+
+    <h2>Invoice Items</h2>
+    {{ invoice_item_formset.management_form }}
+    {% for form in invoice_item_formset %}
+        {{ form.as_p }}
+    {% endfor %}
+
+    <button type="submit">Submit</button>
+</form>
